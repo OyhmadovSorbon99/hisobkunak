@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="tg">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ҳисобкунаки чорияк</title>
+    <style>
+        body {
+            font-family: Times New Roman, sans-serif;
+            padding: 10px;
+            background-color: #f1f1f1;
+        }
+        h2, label {
+            color: #333;
+            font-size: 16px;
+        }
+        input, textarea, select, button {
+            margin: 5px 0;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        table, th, td {
+            border: 1px solid #999;
+        }
+        th, td {
+            padding: 6px 8px;
+            text-align: center;
+            vertical-align: middle;
+        }
+        fieldset {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        legend {
+            font-weight: bold;
+        }
+
+        /* Гуруҳи Маълумоти синф - дар як сатр бо андозаи хурдтар */
+        #classInfo {
+            display: flex;
+            gap: 15px;
+            flex-wrap: nowrap;
+            align-items: flex-start;
+        }
+        #classInfo > div {
+            flex: 1 1 0;
+            min-width: 100px;
+        }
+        #classInfo label {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 3px;
+        }
+        #classInfo input {
+            width: 100%;
+            padding: 6px 8px;
+            font-size: 14px;
+        }
+
+        /* Барои гурӯҳҳои бо flex-row */
+        .flex-row {
+            display: flex;
+            font-size: 14px;
+            gap: 10px;
+            flex-wrap: nowrap;
+        }
+        .flex-col {
+            flex: 1;
+            min-width: 80px;
+        }
+        button {
+            padding: 10px 20px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h2 contenteditable="true"><center>
+        Маълумот <br>дар бораи ҷамбасти чорияки II – юми нимсолаи I соли таҳсили 2024 – 2025 оид ба сатҳи сифати дониши хонандагони синфҳои 1 – 11 – и муассисаи таҳсилоти миёнаи умумии №20 ноҳияи Мир Сайид Алии Ҳамдонӣ
+    </center></h2>
+
+    <fieldset>
+        <legend>Маъмурият</legend>
+        <label>Ному насаби завч:</label>
+        <input type="text" id="deputy" value="/_____________/" onfocus="if(this.value=='/_____________/')this.value='';" onblur="if(this.value=='')this.value='/_____________/';" />
+        <label>Ному насаби директор:</label>
+        <input type="text" id="director" value="/_____________/" onfocus="if(this.value=='/_____________/')this.value='';" onblur="if(this.value=='')this.value='/_____________/';" />
+    </fieldset>
+
+    <fieldset>
+        <legend>Маълумоти синф</legend>
+        <div id="classInfo">
+            <div>
+                <label>Синф:</label>
+                <input type="text" id="class" placeholder="Мисол 5А" />
+            </div>
+            <div>
+                <label>Шумораи умумии х/н:</label>
+                <input type="number" id="totalStudents" />
+            </div>
+            <div>
+                <label>Аз он ҷумла духтарон:</label>
+                <input type="number" id="totalGirls" />
+            </div>
+            <div>
+                <label>Рафтани хонандагон:</label>
+                <input type="number" id="present" />
+            </div>
+            <div>
+                <label>Аз он ҷумла духтарон:</label>
+                <input type="number" id="presentGirls" />
+            </div>
+            <div>
+                <label>Иштирок дар чоряк:</label>
+                <input type="number" id="participants" readonly />
+            </div>
+            <div>
+                <label>Хонандагони бе баҳо:</label>
+                <input type="number" id="noMark" />
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Баҳоҳо</legend>
+        <div class="flex-row" style="margin-top: 5px;">
+            <div class="flex-col"><label>Баҳои 5:</label><input type="number" id="mark5"  style="width: 120px;" /></div>
+            <div class="flex-col"><label><center>5%</center></label><input type="text" id="percent5" readonly style="width: 120px;" /></div>
+
+            <div class="flex-col"><label>Баҳои 4:</label><input type="number" id="mark4" style="width: 120px;" /></div>
+            <div class="flex-col"><label><center>4%</center></label><input type="text" id="percent4" readonly style="width: 120px;" /></div>  
+
+            <div class="flex-col"><label>Баҳои 3:</label><input type="number" id="mark3" style="width: 120px;"/></div>
+            <div class="flex-col"><label><center>3%</center></label><input type="text" id="percent3" readonly style="width: 120px;" style="width: 150px;"/></div>            
+
+            <div class="flex-col"><label>Баҳои 2:</label><input type="number" id="mark2" style="width: 120px;" /></div>
+            <div class="flex-col"><label><center>2%</center></label><input type="text" id="percent2" readonly style="width: 120px;" /></div>
+        
+            <div class="flex-col"><label><center>Фоизи умумӣ:</center></label>
+            <input type="text" id="totalPercent" readonly style="width: 120px;"/>
+            <p id="checkStatus"></p> </div>      
+        
+        </div>
+    </fieldset>
+
+    <button onclick="addData()">Дохил намудан</button>
+    <button onclick="exportToWord()">Сабт ба Word</button>
+
+    <table id="dataTable">
+        <thead>
+            <tr>
+                <th>№</th>
+                <th>Синф</th>
+                <th>Шумораи умумӣ</th>
+                <th>Аз он ҷумла духтарон</th>
+                <th>Рафт</th>
+                <th>Аз он ҷумла духтарон</th>
+                <th>Иштирок дошт</th>
+                <th>5</th>
+                <th>5%</th>                
+                <th>4</th>
+                <th>4%</th>
+                <th>3</th>
+                <th>3%</th>                
+                <th>2</th>
+                <th>2%</th>
+                <th>Фоиз умумӣ</th>
+                <th>Бе баҳо</th>
+                <th>Амал</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        let counter = 1;
+
+        function addData() {
+            const total = parseInt(document.getElementById('totalStudents').value) || 0;
+            const mark5 = parseInt(document.getElementById('mark5').value) || 0;
+            const mark4 = parseInt(document.getElementById('mark4').value) || 0;
+            const mark3 = parseInt(document.getElementById('mark3').value) || 0;
+            const mark2 = parseInt(document.getElementById('mark2').value) || 0;
+
+            if (total === 0) {
+                alert("Лутфан, шумораи умумии хонандагонро ворид кунед.");
+                return;
+            }
+
+            const percent5 = ((mark5 / total) * 100).toFixed(2);
+            const percent4 = ((mark4 / total) * 100).toFixed(2);
+            const percent3 = ((mark3 / total) * 100).toFixed(2);
+            const percent2 = ((mark2 / total) * 100).toFixed(2);
+            const totalPercent = (
+                parseFloat(percent5) +
+                parseFloat(percent4) +
+                parseFloat(percent3) +
+                parseFloat(percent2)
+            ).toFixed(2);
+
+            document.getElementById('participants').value = total;
+            document.getElementById('percent5').value = percent5 + '%';
+            document.getElementById('percent4').value = percent4 + '%';
+            document.getElementById('percent3').value = percent3 + '%';
+            document.getElementById('percent2').value = percent2 + '%';
+            document.getElementById('totalPercent').value = totalPercent + '%';
+
+            const status = document.getElementById('checkStatus');
+            if (totalPercent == 100.00) {
+                status.textContent = 'Дуруст';
+                status.className = 'success';
+            } else {
+                status.textContent = 'Нодуруст';
+                status.className = 'error';
+            }
+
+            const table = document.getElementById('dataTable').getElementsByTagName('tbody')[0];
+            const row = table.insertRow(0);
+
+            // Барои пешгирӣ аз сабти тугмаи "Редакт" дар Word, мо тугмаро ҳамчун матн намегиранд, балки иваз мекунем бо матни "—"
+            row.innerHTML = `
+                <td>${counter++}</td>
+                <td>${escapeHtml(document.getElementById('class').value)}</td>
+                <td>${total}</td>
+                <td>${escapeHtml(document.getElementById('totalGirls').value)}</td>
+                <td>${escapeHtml(document.getElementById('present').value)}</td>
+                <td>${escapeHtml(document.getElementById('presentGirls').value)}</td>
+                <td>${total}</td>
+                <td>${mark5}</td>
+                <td>${percent5}%</td>
+                <td>${mark4}</td>
+                <td>${percent4}%</td>
+                <td>${mark3}</td>
+                <td>${percent3}%</td>
+                <td>${mark2}</td>              
+                <td>${percent2}%</td>
+                <td>${totalPercent}%</td>
+                <td>${escapeHtml(document.getElementById('noMark').value)}</td>
+                <td><button onclick="editRow(this)">Редакт</button></td>
+            `;
+        }
+
+        function editRow(button) {
+            const row = button.parentElement.parentElement;
+            const cells = row.children;
+            row.remove();
+            counter--;
+            updateCounter();
+
+            document.getElementById('class').value = cells[1].textContent;
+            document.getElementById('totalStudents').value = cells[2].textContent;
+            document.getElementById('totalGirls').value = cells[3].textContent;
+            document.getElementById('present').value = cells[4].textContent;
+            document.getElementById('presentGirls').value = cells[5].textContent;
+            // participants readonly — ки баробар ба totalStudents аст, мефаҳмад.
+            // Ҳисоб кардан дубора пас аз ворид шудан ва 'addData' қодир аст.
+
+            document.getElementById('mark5').value = cells[7].textContent;
+            document.getElementById('percent5').value = '';
+            document.getElementById('mark4').value = cells[8].textContent;
+            document.getElementById('percent4').value = '';
+            document.getElementById('mark3').value = cells[9].textContent;
+            document.getElementById('percent3').value = '';
+            document.getElementById('mark2').value = cells[10].textContent;
+            document.getElementById('percent2').value = '';
+            document.getElementById('noMark').value = cells[16].textContent;
+
+            // Ҳамчунин рафъи сатрро (зудтар) хоҳем, ё шумо онро иваз мекунед?
+
+            document.getElementById('checkStatus').textContent = '';
+            document.getElementById('totalPercent').value = '';            
+        }
+
+        function updateCounter() {
+            const rows = document.getElementById('dataTable').getElementsByTagName('tbody')[0].rows;
+            counter = rows.length + 1;
+            for (let i = 0; i < rows.length; i++) {
+                rows[i].cells[0].textContent = rows.length - i;
+            }
+        }
+
+        function exportToWord() {
+            const deputy = document.getElementById('deputy').value || '';
+            const director = document.getElementById('director').value || '';
+            const title = document.querySelector('h2').innerText || '';
+            const table = document.getElementById('dataTable').outerHTML;
+
+            const headerHTML = `
+                <div style="text-align: center; font-weight: bold; margin-bottom: 15px;">${title}</div>
+                <div style="margin-bottom: 15px;">
+                    <span>Завчи таълимӣ:/___________/ ${escapeHtml(deputy)}</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span>Директори муасиса::/___________/ ${escapeHtml(director)}</span>
+                </div>
+            `;
+
+            const htmlContent = `
+                <html xmlns:o='urn:schemas-microsoft-com:office:office' 
+                      xmlns:w='urn:schemas-microsoft-com:office:word' 
+                      xmlns='http://www.w3.org/TR/REC-html40'>
+                <head><title>Сабти Word</title>
+                <style>
+                    table {border-collapse:collapse;}
+                    td, th {border:1px solid black; padding:5px;}
+                </style>
+                </head>
+                <body>
+                    ${headerHTML}
+                    ${table}
+                </body>
+                </html>
+            `;
+
+            const blob = new Blob(['\ufeff', htmlContent], {
+                type: 'application/msword'
+            });
+
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'Натиҷа.doc';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        }
+
+        // Функсия барои пешгирии хато дар HTML (чӣ гуна фаромӯш накардан)
+        function escapeHtml(text) {
+            if (!text) return '';
+            return text.replace(/[&<>"']/g, function (m) {
+                switch (m) {
+                    case '&': return '&amp;';
+                    case '<': return '&lt;';
+                    case '>': return '&gt;';
+                    case '"': return '&quot;';
+                    case "'": return '&#039;';
+                    default: return m;
+                }
+            });
+        }
+
+        // Автоматик ҳисоб кардани шумораи иштироккунандагон
+        ['totalStudents', 'mark5', 'mark4', 'mark3', 'mark2'].forEach(id => {
+            document.getElementById(id).addEventListener('input', () => {
+                const total = parseInt(document.getElementById('totalStudents').value) || 0;
+                const mark5 = parseInt(document.getElementById('mark5').value) || 0;
+                const mark4 = parseInt(document.getElementById('mark4').value) || 0;
+                const mark3 = parseInt(document.getElementById('mark3').value) || 0;
+                const mark2 = parseInt(document.getElementById('mark2').value) || 0;
+
+                const sumMarks = mark5 + mark4 + mark3 + mark2;
+                document.getElementById('participants').value = total;
+                const percent5 = total > 0 ? ((mark5 / total) * 100).toFixed(2) : '0.00';
+                const percent4 = total > 0 ? ((mark4 / total) * 100).toFixed(2) : '0.00';
+                const percent3 = total > 0 ? ((mark3 / total) * 100).toFixed(2) : '0.00';
+                const percent2 = total > 0 ? ((mark2 / total) * 100).toFixed(2) : '0.00';
+                document.getElementById('percent5').value = percent5 + '%';
+                document.getElementById('percent4').value = percent4 + '%';
+                document.getElementById('percent3').value = percent3 + '%';
+                document.getElementById('percent2').value = percent2 + '%';
+
+                const totalPercent = (parseFloat(percent5) + parseFloat(percent4) + parseFloat(percent3) + parseFloat(percent2)).toFixed(2);
+                document.getElementById('totalPercent').value = totalPercent + '%';
+
+                const status = document.getElementById('checkStatus');
+                if (totalPercent == 100.00) {
+                    status.textContent = 'Дуруст';
+                    status.className = 'success';
+                } else {
+                    status.textContent = 'Нодуруст';
+                    status.className = 'error';
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>
